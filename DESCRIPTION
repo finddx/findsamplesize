@@ -1,0 +1,19 @@
+Package: findsamplesize
+Title: Sample Size Calculations
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Berra", "Erkosar", , "berra.erkosar@finddx.org", role = c("aut", "cre")),
+    person("FIND", role = "cph")
+  )
+Description: Gives the number of participants necessary for the RDT
+    performance evaluation studies.
+License: MIT + file LICENSE
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
