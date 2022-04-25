@@ -349,7 +349,7 @@ cluster_random_sample_size(alpha=0.05, power=0.8, coef_var=0.25, A =2, pi=0.01, 
 ```
   
 ```{r tests-cluster_random_sample_size}
-# Innpaired design - the number of clusters required for each treatment group
+# Unpaired design - the number of clusters required for each treatment group
 # incidence of a disease in control group: 0.0148
 # incidence in intervention group: 0.0104
 # desired power: 0.8
@@ -361,6 +361,28 @@ test_that("cluster_random_sample_size works", {
 })
 ```
   
+```{r function-cohen_sample_size}
+#' Cohen’s kappa Sample Size
+#' Under this design, each of the r participating raters must rate all n participating subjects.
+#' The default values are for having two raters and two categories.
+#' @param alpha significance level
+#' @param E two sided error margin
+#' @param a 
+#' @param b 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+cohen_sample_size <- function(alpha = 0.05, E = 0.1, a = 4.0081, b = -4.0532 ){
+  alpha_val <- 1-alpha
+  qq <- qnorm(alpha_val)
+  nom = qq^2/E^2-b
+  n = nom/a
+  return(n)
+  
+}
+```
 
 
 ```{r development-inflate, eval=FALSE}
