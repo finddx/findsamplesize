@@ -44,7 +44,7 @@ When prevalence and prevalence power are not entered the function gives the numb
 
 ### Total N Calculation: 
 
- Calculates the total number of subjects to be screened to estimate the accuracy of a single diagnostic test, based on a known number of true positives/negatives that is needed, an estimate of prevalence , and prevalence power.
+ Calculates the total number of subjects to be screened to estimate the accuracy of a single diagnostic test, based on a known number of confirmed positives/negatives that is needed, an estimate of prevalence, and prevalence power.
 
 
 ```{r examples-n_tot_calculation}
@@ -81,7 +81,32 @@ Calculate the power of the design based on sample size, error margin, sensitivit
 
 ```
 
-### Sample Size Population Proportion 
+## Generate power curve
+
+Generates a table with sample size (confirmed cases and to be screened) calculated for a sequence of desired powers using the "sample_size_calculation" function.
+    
+
+  
+
+```{r example-gen_pow_curve}
+pow_list <- c(0.8, 0.85, 0.9, 0.95)
+    dt <- gen_pow_curve(seq = pow_list,
+                        sen_spe = 0.9,
+                        alpha = 0.05,
+                        margin = 0.05,
+                        prevalence = 0.4,
+                        prevalence_power = 0.8 ,
+                        performance_characteristic = "sen")
+```
+
+  
+
+  
+
+
+
+
+### Sample Size for proportion estimation
 
 Calculate the sample size necessary to estimate a proportion in a finite or infinite proportion. (Daniel et. al)
 
@@ -97,9 +122,9 @@ Calculate the sample size necessary to estimate a proportion in a finite or infi
  # same calculation in an infinite population
 ```
 
-### cluster_random_sample_size
+### Sample Size for cluster randomized trials
 
-Calculates the number of clusters necessary for a cluster randomized trials. 
+Calculates the number of clusters necessary for a cluster randomized trials, based on an estimated change in the proportions between the control and intervention groups.
     
 
   
@@ -113,6 +138,24 @@ cluster_random_sample_size(alpha=0.05, power=0.8, coef_var=0.25, A =2, pi=0.01, 
   
 
   
+
+
+
+## Compare proportions in a 2 sample cross-over design
+
+    
+
+  
+
+```{r example-compare_proportions_cross}
+# Difference between the two proportions are predicted to be 10%
+compare_proportions_cross(alpha = 0.05, power = 0.8, p_diff = 0.1, var = 0.5)
+```
+
+  
+
+  
+
 
 
 

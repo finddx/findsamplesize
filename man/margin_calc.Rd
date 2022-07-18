@@ -13,10 +13,10 @@ margin_calc(alpha, power, sen_spe, sample_size)
 
 \item{sen_spe}{numeric, sensitivity/specificity of a test}
 
-\item{sample_size}{numeric, number of true positives/negatives to be screened}
+\item{sample_size}{numeric, number of confirmed cases i.e. positives/negatives by reference}
 }
 \value{
-numeric, error margin on one side of the confidence interval
+error margin on one side of the confidence interval
 }
 \description{
 Error Margin Calculation

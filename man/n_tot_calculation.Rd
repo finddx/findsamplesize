@@ -9,7 +9,7 @@ n_tot_calculation(prevalence, sample_size, prevalence_power)
 \arguments{
 \item{prevalence}{Disease prevalence}
 
-\item{sample_size}{Number of positives needed}
+\item{sample_size}{Number of confirmed cases by reference}
 
 \item{prevalence_power}{the power to detect the prevalence
 

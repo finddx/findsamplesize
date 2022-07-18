@@ -15,19 +15,3 @@ test_that("margin_calc works", {
 test_that("power_calc works", {
   expect_equal(power_calc(alpha=0.05, margin=0.05, sen_spe=0.8, sample_size=502), 0.8)
 })
-
-test_that("n_por_prop works", {
-   expect_equal(n_pop_prop(alpha = 0.05, p =  0.5, margin = 0.1), 97)
-    expect_equal(n_pop_prop(alpha = 0.05, p =  0.5, margin = 0.1, N=100), 50)
-})
-
-# Innpaired design - the number of clusters required for each treatment group
-# incidence of a disease in control group: 0.0148
-# incidence in intervention group: 0.0104
-# desired power: 0.8
-# significance : 0.05
-# people per cluster : 424
-# variation in clusters: 0.29
-test_that("cluster_random_sample_size works", {
-  expect_equal(cluster_random_sample_size(alpha = 0.05, power =0.8, coef_var = 0.29, A =1, pi =0.0104, pc = 0.0148, CS = 424), 36)
-})

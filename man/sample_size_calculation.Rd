@@ -15,15 +15,15 @@ sample_size_calculation(
 )
 }
 \arguments{
-\item{sen_spe}{numeric, sensitivity/specificity}
+\item{sen_spe}{numeric, expected sensitivity/specificity}
 
 \item{alpha}{numeric, significance level}
 
 \item{power}{numeric, desired power}
 
-\item{margin}{numeric, the error margin}
+\item{margin}{numeric, the error margin - half width of the confidence interval}
 
-\item{prevalence}{numeric, prevalence of the disease. For specificity put 1-diesease prevalance}
+\item{prevalence}{numeric, prevalence of the disease.}
 
 \item{prevalence_power}{numeric, the power to detect the prevalence}
 

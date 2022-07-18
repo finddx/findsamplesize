@@ -76,11 +76,11 @@ When prevalence and prevalence power are not entered the function gives the numb
 ```{r function-sample_size_calculation}
 #' sample_size_calculation
 #'
-#' @param sen_spe numeric, sensitivity/specificity
+#' @param sen_spe numeric, expected sensitivity/specificity
 #' @param alpha numeric, significance level
 #' @param power numeric, desired power
-#' @param margin numeric, the error margin
-#' @param prevalence numeric, prevalence of the disease. For specificity put 1-diesease prevalance
+#' @param margin numeric, the error margin - half width of the confidence interval
+#' @param prevalence numeric, prevalence of the disease. 
 #' @param prevalence_power numeric, the power to detect the prevalence
 #' @param performance_characteristic character, "sen" for sensitivity, "spe" for specificity
 #'
@@ -130,14 +130,14 @@ test_that("sample_size_calculation works", {
 ```
 
 ### Total N Calculation: 
- Calculates the total number of subjects to be screened to estimate the accuracy of a single diagnostic test, based on a known number of true positives/negatives that is needed, an estimate of prevalence , and prevalence power.
+ Calculates the total number of subjects to be screened to estimate the accuracy of a single diagnostic test, based on a known number of confirmed positives/negatives that is needed, an estimate of prevalence, and prevalence power.
 
 ```{r function-n_tot_calculation}
 #' Total N Calculation
 #' 
 #' 
 #' @param prevalence Disease prevalence
-#' @param sample_size Number of positives needed
+#' @param sample_size Number of confirmed cases by reference
 #' @param prevalence_power the power to detect the prevalence
 #' 
 #' #'
@@ -185,9 +185,9 @@ Calculates the margin of error for one side based on the significance, power, se
 #' @param alpha numeric, significance level
 #' @param power numeric, desired power
 #' @param sen_spe numeric, sensitivity/specificity of a test
-#' @param sample_size numeric, number of true positives/negatives to be screened
+#' @param sample_size numeric, number of confirmed cases i.e. positives/negatives by reference
 #'
-#' @return numeric, error margin on one side of the confidence interval
+#' @return error margin on one side of the confidence interval
 #' @references Zhou XH, Obuchowski NA and McClish DK. Statistical Methods in Diagnostic Medicine. 2011;2:193-228
 #' 
 #' @export
@@ -223,7 +223,7 @@ Calculate the power of the design based on sample size, error margin, sensitivit
 ```{r function-power_calc}
 #' Power Calculation
 #'
-#' @param sample_size numeric, confirmed positives/negatives
+#' @param sample_size numeric, confirmed positives/negatives by reference standard
 #' @param margin numeric, the error margin
 #' @param sen_spe test performance characteristice estimate
 #' @param alpha significance level
@@ -257,7 +257,83 @@ test_that("power_calc works", {
 ```
 
 
-### Sample Size Population Proportion 
+
+## Generate power curve
+
+Generates a table with sample size (confirmed cases and to be screened) calculated for a sequence of desired powers using the "sample_size_calculation" function.
+    
+```{r function-gen_pow_curve}
+#' gen_pow_curve
+#' 
+#' Calls sample_size_calculation twice to calculate the number of confirmed cases and number of participants to be screened for a sequence of desired powers.
+#' 
+#' @param seq A sequence of statistical powers for which sample size is to be calculated
+#' @param sen_spe expected sensitivity/specificity
+#' @param alpha significance level
+#' @param margin error margin (half width of the confidence interval)
+#' @param prevalence expected disease power
+#' @param prevalence_power power to predict the prevalence
+#' @param performance_characteristic the performance characteristic that is being evaluated
+#'
+#' @return
+#' 
+#' @export
+gen_pow_curve <- function(seq, sen_spe, alpha, margin,
+                          prevalence, prevalence_power, performance_characteristic = "sen"){
+
+  dt <- data.frame()
+  for (pow in seq) {
+    #browser()
+    n <- sample_size_calculation(sen_spe = sen_spe,
+                                 alpha = alpha,
+                                 power = pow,
+                                 margin = margin,
+                                 prevalence = NULL,
+                                 prevalence_power = NULL ,
+                                 performance_characteristic = performance_characteristic)
+    N <- sample_size_calculation(sen_spe = sen_spe,
+                                 alpha = alpha,
+                                 power = pow,
+                                 margin = margin,
+                                 prevalence = prevalence,
+                                 prevalence_power = prevalence_power ,
+                                 performance_characteristic = performance_characteristic)
+    table <- data.frame(`Power (%)` = pow*100 ,`n confirmed cases` = n, `n to screen` = N, check.names = FALSE )
+    dt <- rbind(dt, table)
+  }
+  return(dt)
+}
+```
+  
+```{r example-gen_pow_curve}
+pow_list <- c(0.8, 0.85, 0.9, 0.95)
+    dt <- gen_pow_curve(seq = pow_list,
+                        sen_spe = 0.9,
+                        alpha = 0.05,
+                        margin = 0.05,
+                        prevalence = 0.4,
+                        prevalence_power = 0.8 ,
+                        performance_characteristic = "sen")
+```
+  
+```{r tests-gen_pow_curve}
+pow_list <- c(0.8, 0.85, 0.9, "a")
+
+test_that("gen_pow_curve works", {
+  expect_error(gen_pow_curve(seq = pow_list,
+                        sen_spe = 0.9,
+                        alpha = 0.05,
+                        margin = 0.05,
+                        prevalence = 0.4,
+                        prevalence_power = 0.8 ,
+                        performance_characteristic = "sen")) 
+})
+```
+  
+
+
+
+### Sample Size for proportion estimation
 
 Calculate the sample size necessary to estimate a proportion in a finite or infinite proportion. (Daniel et. al)
 
@@ -271,7 +347,7 @@ Calculate the sample size necessary to estimate a proportion in a finite or infi
 #' @param margin numeric, error margin
 #' @param N numeric, population size
 #'
-#' @return
+#' @return sample size for the estimation of the proportion
 #' @export
 #'
 #' @references Daniel  WW  (1999).  Biostatistics:  A  Foundation for   Analysis   in   the   Health   Sciences.   7th edition. New York: John Wiley & Sons.
@@ -308,22 +384,22 @@ test_that("n_por_prop works", {
 ```
 
 
-### cluster_random_sample_size
+### Sample Size for cluster randomized trials
 
-Calculates the number of clusters necessary for a cluster randomized trials. 
+Calculates the number of clusters necessary for a cluster randomized trials, based on an estimated change in the proportions between the control and intervention groups.
     
 ```{r function-cluster_random_sample_size}
 #' Cluster Random Sample Size
 #' 
-#' Gives the number of (pairs when available) of clusters required for  cluster randomized trials
+#' Gives the number of clusters (pairs of clusters for paired designs) required for cluster randomized trials
 #' 
-#' @param alpha significance levels
+#' @param alpha significance level
 #' @param power the desired power
 #' @param coef_var between-cluster variation, use 0.25 if unknown as this is the estimated maximum
 #' @param A Adjustment for loss of degrees of freedom (1 for unpaired trials, 2 in paired trials)
 #' @param pi proportion in the intervention group
 #' @param pc proportion in the control group
-#' @param CS an estimate of cluster size
+#' @param CS an estimate of the cluster size
 #'
 #' @return number of clusters required in each treatment group in an unmatched design, and total pairs in a paired design.
 #' @references Hayes, R. J., & Moulton, L. H. (2017). Cluster randomised trials. Chapman and Hall/CRC.
@@ -361,28 +437,48 @@ test_that("cluster_random_sample_size works", {
 })
 ```
   
-```{r function-cohen_sample_size}
-#' Cohen’s kappa Sample Size
-#' Under this design, each of the r participating raters must rate all n participating subjects.
-#' The default values are for having two raters and two categories.
-#' @param alpha significance level
-#' @param E two sided error margin
-#' @param a 
-#' @param b 
-#'
+
+
+## Compare proportions in a 2 sample cross-over design
+    
+```{r function-compare_proportions_cross}
+#' compare_proportions_cross
+#' 
+#' Sample size calculation to compare proportions in a cross-over design
+#' 
+#' @param alpha significance level, default 5%
+#' @param power desired power, default 80%
+#' @param p_diff difference between the proportions of incidence
+#' @param var variance of the d
+#' @references Chow, S. C., Shao, J., Wang, H., & Lokhnygina, Y. (2017). Sample size calculations in clinical research. chapman and hall/CRC.
+
 #' @return
+#' 
 #' @export
-#'
-#' @examples
-cohen_sample_size <- function(alpha = 0.05, E = 0.1, a = 4.0081, b = -4.0532 ){
-  alpha_val <- 1-alpha
-  qq <- qnorm(alpha_val)
-  nom = qq^2/E^2-b
-  n = nom/a
-  return(n)
+compare_proportions_cross <- function(alpha = 0.05, power = 0.8, p_diff, var = 0.5){
+  alpha_val         <- 1-alpha/2
+  zz <- (qnorm(alpha_val) + qnorm(power))^2
+  ss <- var^2
+  denom <- (p_diff^2)*2
+  sample_size <- (zz*ss)/denom
+  return(ceiling(sample_size))
   
+     
 }
 ```
+  
+```{r example-compare_proportions_cross}
+# Difference between the two proportions are predicted to be 10%
+compare_proportions_cross(alpha = 0.05, power = 0.8, p_diff = 0.1, var = 0.5)
+```
+  
+```{r tests-compare_proportions_cross}
+test_that("compare_proportions works", {
+  expect_equal(compare_proportions_cross(alpha = 0.05, power =0.8, p_diff = 0.2, var = 0.5), 25)
+})
+```
+  
+
 
 
 ```{r development-inflate, eval=FALSE}

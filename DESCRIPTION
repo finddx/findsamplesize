@@ -8,6 +8,8 @@ Authors@R: c(
 Description: Gives the number of participants necessary for the RDT
     performance evaluation studies.
 License: MIT + file LICENSE
+Imports: 
+    magrittr
 Suggests: 
     knitr,
     rmarkdown,

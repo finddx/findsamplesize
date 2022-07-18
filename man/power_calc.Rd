@@ -7,7 +7,7 @@
 power_calc(sample_size, margin, sen_spe, alpha)
 }
 \arguments{
-\item{sample_size}{numeric, confirmed positives/negatives}
+\item{sample_size}{numeric, confirmed positives/negatives by reference standard}
 
 \item{margin}{numeric, the error margin}
 
