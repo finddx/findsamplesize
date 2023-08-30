@@ -60,7 +60,7 @@ n_tot_calculation <-function(prevalence, sample_size, prevalence_power){
 #' @param sen_spe test performance characteristice estimate
 #' @param alpha significance level
 #'
-#' @return
+#' @return Power
 #' @export
 #' @references Zhou XH, Obuchowski NA and McClish DK. Statistical Methods in Diagnostic Medicine. 2011;2:193-228
 #' 

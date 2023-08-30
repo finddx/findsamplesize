@@ -15,6 +15,9 @@ compare_proportions_cross(alpha = 0.05, power = 0.8, p_diff, var = 0.5)
 
 \item{var}{variance of the d}
 }
+\value{
+Sample size
+}
 \description{
 Sample size calculation to compare proportions in a cross-over design
 }

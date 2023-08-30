@@ -29,6 +29,9 @@ gen_pow_curve(
 
 \item{performance_characteristic}{the performance characteristic that is being evaluated}
 }
+\value{
+A data frame with values ready to plot a power curve
+}
 \description{
 Calls sample_size_calculation twice to calculate the number of confirmed cases and number of participants to be screened for a sequence of desired powers.
 }

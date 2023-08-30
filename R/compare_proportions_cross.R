@@ -10,7 +10,7 @@
 #' @param var variance of the d
 #' @references Chow, S. C., Shao, J., Wang, H., & Lokhnygina, Y. (2017). Sample size calculations in clinical research. chapman and hall/CRC.
 
-#' @return
+#' @return Sample size
 #' 
 #' @export
 #' @examples

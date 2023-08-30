@@ -228,7 +228,7 @@ Calculate the power of the design based on sample size, error margin, sensitivit
 #' @param sen_spe test performance characteristice estimate
 #' @param alpha significance level
 #'
-#' @return
+#' @return Power
 #' @export
 #' @references Zhou XH, Obuchowski NA and McClish DK. Statistical Methods in Diagnostic Medicine. 2011;2:193-228
 #' 
@@ -275,7 +275,7 @@ Generates a table with sample size (confirmed cases and to be screened) calculat
 #' @param prevalence_power power to predict the prevalence
 #' @param performance_characteristic the performance characteristic that is being evaluated
 #'
-#' @return
+#' @return A data frame with values ready to plot a power curve
 #' 
 #' @export
 gen_pow_curve <- function(seq, sen_spe, alpha, margin,
@@ -452,7 +452,7 @@ test_that("cluster_random_sample_size works", {
 #' @param var variance of the d
 #' @references Chow, S. C., Shao, J., Wang, H., & Lokhnygina, Y. (2017). Sample size calculations in clinical research. chapman and hall/CRC.
 
-#' @return
+#' @return Sample size
 #' 
 #' @export
 compare_proportions_cross <- function(alpha = 0.05, power = 0.8, p_diff, var = 0.5){

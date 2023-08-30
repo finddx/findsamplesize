@@ -44,7 +44,7 @@ cluster_random_sample_size <- function(alpha, power, coef_var=0.25, A=2, pi, pc,
 #' @param prevalence_power power to predict the prevalence
 #' @param performance_characteristic the performance characteristic that is being evaluated
 #'
-#' @return
+#' @return A data frame with values ready to plot a power curve
 #' 
 #' @export
 #' @examples
