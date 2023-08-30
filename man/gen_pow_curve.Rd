@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen_pow_curve.R
 \name{gen_pow_curve}
 \alias{gen_pow_curve}
-\title{gen_pow_curve}
+\title{Generate power curve}
 \usage{
 gen_pow_curve(
   seq,
@@ -23,14 +23,11 @@ gen_pow_curve(
 
 \item{margin}{error margin (half width of the confidence interval)}
 
-\item{prevalence}{expected disease power}
+\item{prevalence}{expected disease prevalence}
 
 \item{prevalence_power}{power to predict the prevalence}
 
 \item{performance_characteristic}{the performance characteristic that is being evaluated}
-}
-\value{
-
 }
 \description{
 Calls sample_size_calculation twice to calculate the number of confirmed cases and number of participants to be screened for a sequence of desired powers.

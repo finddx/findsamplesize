@@ -15,9 +15,6 @@ power_calc(sample_size, margin, sen_spe, alpha)
 
 \item{alpha}{significance level}
 }
-\value{
-
-}
 \description{
 Power Calculation
 }

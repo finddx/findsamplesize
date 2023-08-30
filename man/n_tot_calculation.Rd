@@ -11,9 +11,7 @@ n_tot_calculation(prevalence, sample_size, prevalence_power)
 
 \item{sample_size}{Number of confirmed cases by reference}
 
-\item{prevalence_power}{the power to detect the prevalence
-
-#'}
+\item{prevalence_power}{the power to detect the prevalence}
 }
 \value{
 total number of subjects to be screened
