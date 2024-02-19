@@ -21,7 +21,7 @@
  margin_calc <- function(alpha, power, sen_spe, sample_size) {
    alpha_val         <- 1-alpha/2
    margin <- sqrt((((qnorm(alpha_val) + qnorm(power)) * sqrt(sen_spe*(1-sen_spe)))^2)/sample_size)
-   return(round(margin, digits=2))
+   return(round(margin, digits=3))
  }
  
 
@@ -73,7 +73,7 @@ n_tot_calculation <-function(prevalence, sample_size, prevalence_power){
    alpha_val         <- 1-alpha/2
    (sqrt(sample_size * margin^2) / (sqrt(sen_spe*(1-sen_spe)))) - qnorm(alpha_val) -> qp
    power <- pnorm(qp)
-   return(round(power, digits = 2))
+   return(round(power, digits = 3))
  }
  
 

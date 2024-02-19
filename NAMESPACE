@@ -3,6 +3,7 @@
 export("%>%")
 export(cluster_random_sample_size)
 export(compare_proportions_cross)
+export(effective_sample_size)
 export(gen_pow_curve)
 export(margin_calc)
 export(n_pop_prop)
