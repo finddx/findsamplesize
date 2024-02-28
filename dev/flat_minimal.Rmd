@@ -196,7 +196,7 @@ Calculates the margin of error for one side based on the significance, power, se
  margin_calc <- function(alpha, power, sen_spe, sample_size) {
    alpha_val         <- 1-alpha/2
    margin <- sqrt((((qnorm(alpha_val) + qnorm(power)) * sqrt(sen_spe*(1-sen_spe)))^2)/sample_size)
-   return(round(margin, digits=2))
+   return(round(margin, digits=3))
  }
  
 ```
@@ -237,7 +237,7 @@ Calculate the power of the design based on sample size, error margin, sensitivit
    alpha_val         <- 1-alpha/2
    (sqrt(sample_size * margin^2) / (sqrt(sen_spe*(1-sen_spe)))) - qnorm(alpha_val) -> qp
    power <- pnorm(qp)
-   return(round(power, digits = 2))
+   return(round(power, digits = 3))
  }
  
 ```
@@ -438,6 +438,54 @@ test_that("cluster_random_sample_size works", {
 ```
   
 
+
+### Effective Sample Size
+
+The effective sample size (ESS) accounts for the clustering structure in clustered data and provides an estimate of the sample size needed to achieve the same level of precision as a simple random sample of the same size.
+
+E.g., if you have 4 physicians’ offices enrolling 32 patients each, you have 128 subjects in your study. Depending on the intracluster correlation coefficient and the design effect, however, you may effectively have far fewer subjects enrolled in your trial from a statistical perspective i.e., the effective sample size.
+
+```{r function-effective_sample_size}
+#' Effective Sample Size
+#' 
+#' Gives the 'real' sample size in a clustered trial, accounting for the net loss of data due to the similarities among participants in the same cluster. 
+#' @param m number of participants in a cluster
+#' @param k number of clusters
+#' @param ICC intracluster correlation coefficient
+#' 
+#' @return effective sample size (actual sample size (mk) divided by the design effect (1 + ICC * (m - 1)))
+#' 
+#' @references Killip S, Mahfoud Z, Pearce K. (2004). What is an intracluster correlation coefficient? Crucial concepts for primary care researchers. Ann Fam Med. 
+#' 
+#' @export
+effective_sample_size <- function(m, k, ICC){
+  ss = m*k
+  de = (1 + ICC * (m - 1))
+  N = ss/de
+  return(ceiling(N))
+}
+
+```
+
+```{r example-effective_sample_size}
+
+# In a cluster randomized controlled trial, you have 8 clusters with 30 participants per cluster i.e., total sample size of 240 and an ICC of 0.2. A simple method to calculate the power associated with this sample size is to first calculate the effective sample size i.e., the sample size in a simple random sample that would give the same level of precision, and then do a power calculation using the ESS. 
+
+effective_sample_size(m = 30, k =8, ICC = 0.2)
+
+```
+
+```{r tests-effective_sample_size}
+# Calculates effective sample size
+# number of participants in a cluster: 32
+# number of clusters: 4
+# intracluster correlation coefficient: 0.017
+
+test_that("effective_sample_size works", {
+  expect_equal(effective_sample_size(m = 32, k = 4, ICC = 0.017), 84)
+})
+
+```
 
 ## Compare proportions in a 2 sample cross-over design
     

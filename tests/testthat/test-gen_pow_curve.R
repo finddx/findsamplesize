@@ -27,3 +27,13 @@ test_that("n_por_prop works", {
 test_that("cluster_random_sample_size works", {
   expect_equal(cluster_random_sample_size(alpha = 0.05, power =0.8, coef_var = 0.29, A =1, pi =0.0104, pc = 0.0148, CS = 424), 36)
 })
+
+# Calculates effective sample size
+# number of participants in a cluster: 32
+# number of clusters: 4
+# intracluster correlation coefficient: 0.017
+
+test_that("effective_sample_size works", {
+  expect_equal(effective_sample_size(m = 32, k = 4, ICC = 0.017), 84)
+})
+

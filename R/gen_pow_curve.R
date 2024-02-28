@@ -32,6 +32,32 @@ cluster_random_sample_size <- function(alpha, power, coef_var=0.25, A=2, pi, pc,
 
 }
 
+#' Effective Sample Size
+#' 
+#' Gives the 'real' sample size in a clustered trial, accounting for the net loss of data due to the similarities among participants in the same cluster. 
+#' @param m number of participants in a cluster
+#' @param k number of clusters
+#' @param ICC intracluster correlation coefficient
+#' 
+#' @return effective sample size (actual sample size (mk) divided by the design effect (1 + ICC * (m - 1)))
+#' 
+#' @references Killip S, Mahfoud Z, Pearce K. (2004). What is an intracluster correlation coefficient? Crucial concepts for primary care researchers. Ann Fam Med. 
+#' 
+#' @export
+#' @examples
+#'
+#' # In a cluster randomized controlled trial, you have 8 clusters with 30 participants per cluster i.e., total sample size of 240 and an ICC of 0.2. A simple method to calculate the power associated with this sample size is to first calculate the effective sample size i.e., the sample size in a simple random sample that would give the same level of precision, and then do a power calculation using the ESS. 
+#'
+#' effective_sample_size(m = 30, k =8, ICC = 0.2)
+#'
+effective_sample_size <- function(m, k, ICC){
+  ss = m*k
+  de = (1 + ICC * (m - 1))
+  N = ss/de
+  return(ceiling(N))
+}
+
+
 #' Generate power curve
 #' 
 #' Calls sample_size_calculation twice to calculate the number of confirmed cases and number of participants to be screened for a sequence of desired powers.
