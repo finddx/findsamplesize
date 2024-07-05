@@ -185,16 +185,16 @@ sample_size_non_inferiority(se1 = 0.9, se2 = 0.88, r = 0.5, min_dif=0.05, alpha=
   
   
 
-# ss_non_inf_2
+# ss_compare_sen_spe
 
     
 
   
 
-```{r example-ss_non_inf_2}
+```{r example-ss_compare_sen_spe}
 #' \dontrun{
-ss_non_inf_2(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8)
-ss_non_inf_2(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8, p11 = 0.5)
+ss_compare_sen_spe(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8)
+ss_compare_sen_spe(theta_s = 0.45, theta_e = 0.43, delta_m = 0, beta = 0.8)
 #' }
 ```
 

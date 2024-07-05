@@ -575,12 +575,12 @@ test_that("sample_size_non_inferiority works", {
   
   
   
-# ss_non_inf_2
+# ss_compare_sen_spe
     
-```{r function-ss_non_inf_2}
-#' Sample Size non-inferiority method 2 
+```{r function-ss_compare_sen_spe}
+#' Sample Size for detecting a difference between two tests 
 #' 
-#' Gives a sample size  for a diagnostic accuracy trial with non-inferiority hypothesis, based on estimated accuracy for each test and a minimum non-acceptable difference (Eq. 6.24 from Zhou et al. 2011)  Variance is calculated using the Eq.6.15 from Zhou et al. In default version, the variance is calculated twice for the case when there is perfect correlation between the test results and the case when the correlation between the tests are equal to 0. A sample size for both scenarios and their mean is provided. In case of unknown correlation with a "modearate" expectation, mean value can be used.
+#' Sample size calculation when comparing sensitivities/specifies in paired groups by McNemar, according to Beam, 1992, Table 4. Three sample sizes are given taking into account the minimum (N_min) and the maximum (N_max) bounds on the probability of disagreement, and their mean (N_mean). The original formula is for equivalence testing. The hypothesis of detecting a specified difference (delta_m) was done as in Blackwleder 1982 by introducing the specified difference to the denominator.
 #' 
 #' 
 #' @param theta_s numeric value between 0 and 1. performance estimate of standard test
@@ -588,45 +588,43 @@ test_that("sample_size_non_inferiority works", {
 #' @param delta_m numeric value. maximal acceptable difference to conclude non-inferiority.
 #' @param alpha numeric value. Significance level
 #' @param beta numeric value. beta = 1 - Power 
-#' @param p11 numeric value. Probability that standard test is positive when experimental test is positive, when estimation is possible from preliminary data
+
 #' 
 #' @importFrom stats qnorm
 #'
-#' @return numeric value giving the number of samples required
+#' @return numeric values giving the min-mean-max number of samples required
+#' @references Blackwelder WC. "Proving the Null Hypothesis" in Clinical Trials. Control. Clin. Trials 1982; 3:345-353.
+#' @references Beam, C. A. (1992). Strategies for improving power in diagnostic radiology research. American Journal of Roentgenology 159, 631-637.
 #' @export
-ss_non_inf_2 <- function(theta_s, theta_e, delta_m, alpha = 0.05, beta = 0.8, p11 = NULL){
-  phi_min <- theta_s - theta_e
+#' 
+  ss_compare_sen_spe  <- function(theta_s, theta_e, delta_m, alpha = 0.05, beta = 0.8){
+    phi_min <- theta_s - theta_e
   phi_max <- theta_s * (1 - theta_e) + theta_e * (1 - theta_s)
   phi_vec <- c(phi_min, phi_max)
-  
-  if(!is.null(p11)){
-    phi_est <- theta_s + theta_e - 2 * theta_e * p11
-    phi_vec <- c(phi_vec, phi_est)
-  }
-  
+
+
   ss.range <- sapply(phi_vec, function(phi){
-    ((qnorm(1 - alpha/2) + qnorm(beta))^2 * (phi - phi_min ^ 2)) / ((phi_min - delta_m)^2)
+    (qnorm(1 - alpha) * sqrt(phi) + qnorm(beta) * sqrt(phi-phi_min^2))^2 / (phi_min-delta_m)^2
   })
   
   Ns <- ceiling(c(N_min = ss.range[1], N_mean = mean(ss.range[1:2]), N_max = ss.range[2]))
-  if(!is.null(p11)){
-    Ns <- c(Ns, N_est = ceiling(ss.range[3]))
-  }
+
   return(Ns)
+
 
 }
 ```
   
-```{r example-ss_non_inf_2}
+```{r example-ss_compare_sen_spe}
 #' \dontrun{
-ss_non_inf_2(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8)
-ss_non_inf_2(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8, p11 = 0.5)
+ss_compare_sen_spe(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8)
+ss_compare_sen_spe(theta_s = 0.45, theta_e = 0.43, delta_m = 0, beta = 0.8)
 #' }
 ```
   
-```{r tests-ss_non_inf_2}
-test_that("ss_non_inf_2 works", {
-  expect_true(inherits(ss_non_inf_2, "function")) 
+```{r tests-ss_compare_sen_spe}
+test_that("ss_compare_sen_spe works", {
+  expect_true(inherits(ss_compare_sen_spe, "function")) 
 })
 ```
   
