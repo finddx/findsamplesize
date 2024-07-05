@@ -3,7 +3,3 @@
 test_that("ss_non_inf_2 works", {
   expect_true(inherits(ss_non_inf_2, "function")) 
 })
-
-test_that("sample_size_non_inferiority works", {
-  expect_true(inherits(sample_size_non_inferiority, "function")) 
-})

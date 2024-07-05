@@ -562,6 +562,17 @@ sample_size_non_inferiority <- function(se1, se2, r, min_dif, alpha, power ){
     
 }
 ```
+
+```{r example-sample_size_non_inferiority}
+sample_size_non_inferiority(se1 = 0.9, se2 = 0.88, r = 0.5, min_dif=0.05, alpha=0.05, power=0.8)
+```
+  
+```{r tests-sample_size_non_inferiority}
+test_that("sample_size_non_inferiority works", {
+  expect_true(inherits(sample_size_non_inferiority, "function")) 
+})
+```
+  
   
   
 # ss_non_inf_2
@@ -618,16 +629,6 @@ test_that("ss_non_inf_2 works", {
 })
 ```
   
-  
-```{r example-sample_size_non_inferiority}
-sample_size_non_inferiority(se1 = 0.9, se2 = 0.88, r = 0.5, min_dif=0.05, alpha=0.05, power=0.8)
-```
-  
-```{r tests-sample_size_non_inferiority}
-test_that("sample_size_non_inferiority works", {
-  expect_true(inherits(sample_size_non_inferiority, "function")) 
-})
-```
   
 
 

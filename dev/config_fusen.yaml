@@ -11,6 +11,7 @@ flat_minimal.Rmd:
   - tests/testthat/test-sample_size_calculation.R
   - tests/testthat/test-gen_pow_curve.R
   - tests/testthat/test-compare_proportions_cross.R
+  - tests/testthat/test-sample_size_non_inferiority.R
   - tests/testthat/test-ss_non_inf_2.R
   vignettes: vignettes/sample-size-calculations.Rmd
   inflate:

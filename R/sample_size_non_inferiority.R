@@ -18,6 +18,8 @@
 #' @references Zhou XH, Obuchowski NA and McClish DK. Statistical Methods in Diagnostic Medicine. 2011;2:193-228
 #' @references Blume J. D. (2009). Bounding Sample Size Projections for the Area Under a ROC Curve. Journal of statistical planning and inference, 139(1), 711–721.
 #' 
+#' @examples
+#' sample_size_non_inferiority(se1 = 0.9, se2 = 0.88, r = 0.5, min_dif=0.05, alpha=0.05, power=0.8)
 
 
 sample_size_non_inferiority <- function(se1, se2, r, min_dif, alpha, power ){

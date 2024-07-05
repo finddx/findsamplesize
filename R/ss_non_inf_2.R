@@ -20,8 +20,6 @@
 #' ss_non_inf_2(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8)
 #' ss_non_inf_2(theta_s = 0.45, theta_e = 0.43, delta_m = 0.07, beta = 0.8, p11 = 0.5)
 #' }
-#'
-#' sample_size_non_inferiority(se1 = 0.9, se2 = 0.88, r = 0.5, min_dif=0.05, alpha=0.05, power=0.8)
 ss_non_inf_2 <- function(theta_s, theta_e, delta_m, alpha = 0.05, beta = 0.8, p11 = NULL){
   phi_min <- theta_s - theta_e
   phi_max <- theta_s * (1 - theta_e) + theta_e * (1 - theta_s)
