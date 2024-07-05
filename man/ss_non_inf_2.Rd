@@ -23,7 +23,7 @@ ss_non_inf_2(theta_s, theta_e, delta_m, alpha = 0.05, beta = 0.8, p11 = NULL)
 numeric value giving the number of samples required
 }
 \description{
-Gives a sample size range for a diagnostic accuracy trial with non-inferiority hypothesis, based on estimated accuracy for each test and a minimum non-acceptable difference (Eq. 6.24 from Zhou et al. 2011)  Variance is calculated using the Eq.6.15 from Zhou et al., with a
+Gives a sample size  for a diagnostic accuracy trial with non-inferiority hypothesis, based on estimated accuracy for each test and a minimum non-acceptable difference (Eq. 6.24 from Zhou et al. 2011)  Variance is calculated using the Eq.6.15 from Zhou et al. In default version, the variance is calculated twice for the case when there is perfect correlation between the test results and the case when the correlation between the tests are equal to 0. A sample size for both scenarios and their mean is provided. In case of unknown correlation with a "modearate" expectation, mean value can be used.
 }
 \examples{
 \dontrun{
