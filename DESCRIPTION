@@ -9,7 +9,8 @@ Description: Gives the number of participants necessary for the RDT
     performance evaluation studies.
 License: MIT + file LICENSE
 Imports: 
-    magrittr
+    magrittr,
+    stats
 Suggests: 
     knitr,
     rmarkdown,
@@ -19,4 +20,4 @@ VignetteBuilder:
 Config/fusen/version: 0.5.2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
